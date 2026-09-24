@@ -57,7 +57,9 @@ CONTRACT_ADDR_PREFIX = "0xc"
 # ---------------------------------------------------------------------------
 STATS_GROUP_COINBASE_AS_TRANSFER = True
 BLOCK_INTERVAL_SCALE = 1000.0
-DIFFICULTY_SERIES_TAIL_DROP = 1
+# The difficulty chart must include the tip block; dropping even one block
+# leaves the line permanently one point behind the actual chain height.
+DIFFICULTY_SERIES_TAIL_DROP = 0
 TOP_ACCOUNT_SORT_FIELD = "nonce"
 HASHRATE_SMOOTH_WINDOW = 2
 BALANCE_DISPLAY_DECIMALS = 0
