@@ -22,7 +22,6 @@ from .config import (
     DIFFICULTY_ADJUST_INTERVAL,
     DIFFICULTY_ADJUST_MAX_FACTOR,
     DIFFICULTY_ADJUST_MIN_FACTOR,
-    DIFFICULTY_SERIES_TAIL_DROP,
     HASHRATE_SMOOTH_WINDOW,
     TARGET_BLOCK_TIME,
 )
@@ -132,14 +131,15 @@ def next_difficulty(chain, block):
     return adjust_difficulty(parent.difficulty, actual)
 
 
-def difficulty_series(chain, tail_drop=DIFFICULTY_SERIES_TAIL_DROP):
-    """Build the difficulty time series shown on the dashboard."""
-    blocks = chain.chain
-    if tail_drop > 0:
-        blocks = blocks[:-tail_drop]
+def difficulty_series(chain):
+    """Build the difficulty time series shown on the dashboard.
+
+    The series covers every block up to and including the chain head so the
+    chart's right edge always reflects the latest mined block.
+    """
     return [
         {"index": b.index, "difficulty": b.difficulty, "timestamp": b.timestamp}
-        for b in blocks
+        for b in chain.chain
     ]
 
 
